@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Preços - Delivery PRO</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --primary: #ea1d2c;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+            --success: #059669;
+            --success-bg: #d1fae5;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .inputs-section {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin-bottom: 2.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper span {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(234, 29, 44, 0.1);
+        }
+
+        .results-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 1.8rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border-top: 5px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card.ifood-delivery {
+            border-top-color: #1a202c;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+            min-height: 40px;
+        }
+
+        .price-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .price {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .card.ifood-delivery .price {
+            color: #1a202c;
+        }
+
+        .details {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: var(--bg-color);
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .details span {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .client-total {
+            margin-top: auto;
+            background: var(--success-bg);
+            border: 1px solid #a7f3d0;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .client-total .label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--success);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .client-total .value {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--success);
+            font-weight: 700;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Calculadora de Vendas PRO</h1>
+            <p>Simule o seu lucro e descubra quanto o cliente vai pagar no final</p>
+        </div>
+
+        <div class="inputs-section">
+            <div class="input-group">
+                <label for="valorDesejado">Seu Lucro Líquido Desejado</label>
+                <div class="input-wrapper">
+                    <span>R$</span>
+                    <input type="number" id="valorDesejado" value="40.00" step="0.01" min="0">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="custoFrete">Custo do SEU Motoboy (Plano 2)</label>
+                <div class="input-wrapper">
+                    <span>R$</span>
+                    <input type="number" id="custoFrete" value="8.00" step="0.01" min="0">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="freteCliente">Frete cobrado do Cliente no App</label>
+                <div class="input-wrapper">
+                    <span>R$</span>
+                    <input type="number" id="freteCliente" value="6.00" step="0.01" min="0">
+                </div>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <div class="card">
+                <div class="card-title">Plano Básico (Sua Entrega)</div>
+                <div class="card-desc">Cliente paga o frete à parte. Preço na vitrine parece menor.</div>
+                
+                <div class="price-label">Preço no Cardápio</div>
+                <div class="price" id="precoCenario1">R$ 0,00</div>
+                
+                <div class="details">
+                    Taxa do App: ~15,5%<br>
+                    Você embolsa: <span class="bolso">R$ 0,00</span>
+                </div>
+
+                <div class="client-total">
+                    <span class="label">Total que o cliente paga</span>
+                    <span class="value" id="totalCliente1">R$ 0,00</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Plano Básico c/ Frete Grátis</div>
+                <div class="card-desc">Custo do motoboy embutido. A etiqueta "Grátis" atrai muito mais!</div>
+                
+                <div class="price-label">Preço no Cardápio</div>
+                <div class="price" id="precoCenario2">R$ 0,00</div>
+                
+                <div class="details">
+                    Taxa do App: ~15,5%<br>
+                    Paga o Motoboy: <span id="motoCenario2">R$ 0,00</span><br>
+                    Você embolsa: <span class="bolso">R$ 0,00</span>
+                </div>
+
+                <div class="client-total">
+                    <span class="label">Total que o cliente paga</span>
+                    <span class="value" id="totalCliente2">R$ 0,00</span>
+                </div>
+            </div>
+
+            <div class="card ifood-delivery">
+                <div class="card-title">Plano Entrega (Motoboy App)</div>
+                <div class="card-desc">iFood faz a entrega e cobra o frete do cliente no fim da compra.</div>
+                
+                <div class="price-label">Preço no Cardápio</div>
+                <div class="price" id="precoCenario3">R$ 0,00</div>
+                
+                <div class="details">
+                    Taxa do App: ~30,0%<br>
+                    Você embolsa: <span class="bolso">R$ 0,00</span>
+                </div>
+
+                <div class="client-total">
+                    <span class="label">Total que o cliente paga</span>
+                    <span class="value" id="totalCliente3">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const TAXA_BASICO = 0.155; 
+        const TAXA_ENTREGA = 0.30; 
+
+        const inputValor = document.getElementById('valorDesejado');
+        const inputFreteMotoboy = document.getElementById('custoFrete');
+        const inputFreteCliente = document.getElementById('freteCliente');
+        
+        const formatMoeda = (valor) => {
+            return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        };
+
+        const calcular = () => {
+            let valorDesejado = parseFloat(inputValor.value) || 0;
+            let custoMotoboy = parseFloat(inputFreteMotoboy.value) || 0;
+            let freteCliente = parseFloat(inputFreteCliente.value) || 0;
+
+            // Cenário 1: Básico, Cliente paga o frete por fora
+            let precoVitrine1 = valorDesejado / (1 - TAXA_BASICO);
+            let totalCliente1 = precoVitrine1 + freteCliente;
+            
+            document.getElementById('precoCenario1').innerText = `R$ ${formatMoeda(precoVitrine1)}`;
+            document.getElementById('totalCliente1').innerText = `R$ ${formatMoeda(totalCliente1)}`;
+
+            // Cenário 2: Básico, Frete Grátis (Embutir motoboy no preço)
+            let precoVitrine2 = (valorDesejado + custoMotoboy) / (1 - TAXA_BASICO);
+            let totalCliente2 = precoVitrine2; // Frete é grátis para o cliente
+            
+            document.getElementById('precoCenario2').innerText = `R$ ${formatMoeda(precoVitrine2)}`;
+            document.getElementById('motoCenario2').innerText = `R$ ${formatMoeda(custoMotoboy)}`;
+            document.getElementById('totalCliente2').innerText = `R$ ${formatMoeda(totalCliente2)}`;
+
+            // Cenário 3: Entrega iFood (Cliente paga o frete do app)
+            let precoVitrine3 = valorDesejado / (1 - TAXA_ENTREGA);
+            let totalCliente3 = precoVitrine3 + freteCliente;
+            
+            document.getElementById('precoCenario3').innerText = `R$ ${formatMoeda(precoVitrine3)}`;
+            document.getElementById('totalCliente3').innerText = `R$ ${formatMoeda(totalCliente3)}`;
+
+            // Atualiza os bolsos
+            const bolsos = document.querySelectorAll('.bolso');
+            bolsos.forEach(bolso => {
+                bolso.innerText = `R$ ${formatMoeda(valorDesejado)}`;
+            });
+        };
+
+        inputValor.addEventListener('input', calcular);
+        inputFreteMotoboy.addEventListener('input', calcular);
+        inputFreteCliente.addEventListener('input', calcular);
+
+        calcular();
+    </script>
+</body>
+</html>
