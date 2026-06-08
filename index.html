@@ -3,140 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Dupla Integrada</title>
+    <title>1 por 2</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
         body {
-            background-color: #f0f2f5;
+            background-color: #0d0e12;
+            color: #e4e6eb;
             padding: 20px;
             text-align: center;
+            min-height: 100vh;
         }
 
         .main-wrapper {
             display: block;
-            max-width: 840px;
-            margin: 40px auto;
+            max-width: 800px;
+            margin: 20px auto;
             text-align: left;
+        }
+
+        .app-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .app-header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d2ff 0%, #28a745 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .app-header p {
+            color: #7c8296;
+            font-size: 14px;
+            margin-top: 5px;
         }
 
         .container-table {
             display: table;
             width: 100%;
             border-collapse: separate;
-            border-spacing: 20px 0;
+            border-spacing: 16px 0;
         }
 
         .container-column {
             display: table-cell;
             width: 50%;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            background-color: #161820;
+            padding: 25px;
+            border-radius: 24px;
+            border: 1px solid #252836;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
             vertical-align: top;
         }
 
         h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 25px;
-            font-size: 22px;
+            color: #ffffff;
+            margin-bottom: 22px;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #252836;
+            padding-bottom: 10px;
         }
 
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            color: #666;
-            font-weight: 600;
-            font-size: 14px;
+            color: #9ea3b5;
+            font-weight: 500;
+            font-size: 13px;
         }
 
         input {
             width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e4e8;
-            border-radius: 10px;
-            font-size: 18px;
+            padding: 14px 16px;
+            border: 1px solid #2d3142;
+            border-radius: 12px;
+            font-size: 17px;
             outline: none;
-            transition: border-color 0.2s;
-            background-color: #ffffff;
+            background-color: #1f222e;
+            color: #ffffff;
+            transition: all 0.2s ease;
         }
 
         input:focus {
-            border-color: #007bff;
+            border-color: #00d2ff;
+            box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.15);
         }
 
+        /* Input automático bloqueado */
         input:disabled {
-            background-color: #f8f9fa;
-            color: #6c757d;
-            border-color: #e1e4e8;
+            background-color: #12131a;
+            color: #62677a;
+            border-color: #1f222e;
             cursor: not-allowed;
         }
 
+        /* BOTÃO PRINCIPAL */
         .btn-main {
-            width: calc(100% - 40px);
-            margin: 10px 20px;
-            padding: 18px;
-            background-color: #28a745;
+            width: calc(100% - 32px);
+            margin: 25px 16px 10px 16px;
+            padding: 16px;
+            background: linear-gradient(135deg, #23c552 0%, #1b9c3e 100%);
             color: white;
             border: none;
-            border-radius: 15px;
-            font-size: 20px;
-            font-weight: bold;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.2s;
-            box-shadow: 0 8px 15px rgba(40, 167, 69, 0.3);
+            transition: all 0.2s ease;
+            box-shadow: 0 6px 20px rgba(35, 197, 82, 0.25);
+            letter-spacing: 0.5px;
         }
 
         .btn-main:hover {
-            background-color: #218838;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(35, 197, 82, 0.35);
+        }
+
+        .btn-main:active {
+            transform: translateY(1px);
         }
 
         .result-box {
-            margin-top: 25px;
-            padding: 20px;
-            border-radius: 8px;
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 14px;
             text-align: center;
-            height: 100px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            min-height: 90px;
+            display: block;
         }
 
         .box-blue {
-            background-color: #e7f3ff;
-            border-left: 5px solid #007bff;
+            background-color: rgba(0, 210, 255, 0.06);
+            border: 1px solid rgba(0, 210, 255, 0.15);
+            border-left: 4px solid #00d2ff;
         }
 
         .box-orange {
-            background-color: #fff4e6;
-            border-left: 5px solid #fd7e14;
+            background-color: rgba(255, 159, 28, 0.06);
+            border: 1px solid rgba(255, 159, 28, 0.15);
+            border-left: 4px solid #ff9f1c;
         }
 
         .result-box span {
             display: block;
-            font-size: 14px;
-            color: #555;
-            margin-bottom: 5px;
+            font-size: 13px;
+            color: #9ea3b5;
+            margin-bottom: 6px;
+            font-weight: 500;
         }
 
         .result-box strong {
-            font-size: 28px;
+            font-size: 26px;
+            font-weight: 700;
         }
 
-        .color-blue { color: #007bff; }
-        .color-orange { color: #fd7e14; }
+        .color-blue { color: #00d2ff; }
+        .color-orange { color: #ff9f1c; }
 
+        /* Ajustes Mobile */
         @media (max-width: 768px) {
             .container-table {
                 display: block;
@@ -144,14 +183,15 @@
             .container-column {
                 display: block;
                 width: 100%;
-                margin-bottom: 20px;
-            }
-            .main-wrapper {
-                margin: 10px auto;
+                margin-bottom: 16px;
+                padding: 20px;
             }
             .btn-main {
                 width: 100%;
-                margin: 10px 0;
+                margin: 15px 0 0 0;
+            }
+            .main-wrapper {
+                margin: 5px auto;
             }
         }
     </style>
@@ -159,6 +199,12 @@
 <body>
 
     <div class="main-wrapper">
+        
+        <div class="app-header">
+            <h1>1 por 2</h1>
+            <p>Multiplicação Integrada & Análise de Diferença</p>
+        </div>
+
         <div class="container-table">
             
             <div class="container-column">
@@ -170,7 +216,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="multiplicador">Multiplicar por (Ex: 1,66):</label>
+                    <label for="multiplicador">Multiplicar por:</label>
                     <input type="number" id="multiplicador" step="any" placeholder="Ex: 1.66">
                 </div>
 
@@ -184,8 +230,8 @@
                 <h2>2. Diferença e Multiplicação</h2>
 
                 <div class="input-group">
-                    <label for="valorBaseEspelho">Valor Base (Puxado automaticamente):</label>
-                    <input type="number" id="valorBaseEspelho" step="any" placeholder="Preencha na caixa 1" disabled>
+                    <label for="valorBaseEspelho">Valor Base (Automático):</label>
+                    <input type="number" id="valorBaseEspelho" step="any" placeholder="Aguardando Caixa 1" disabled>
                 </div>
 
                 <div class="input-group">
@@ -206,13 +252,11 @@
     </div>
 
     <script>
-        // Puxa o valor da primeira caixa só para demonstração visual
         function sincronizarValorBase() {
             const valor = document.getElementById('valorBase').value;
             document.getElementById('valorBaseEspelho').value = valor;
         }
 
-        // Deixa o número bonito com vírgula no final
         function formatarNumero(num) {
             if (num % 1 === 0) {
                 return num.toString();
@@ -229,35 +273,25 @@
             const campoCaixa2 = document.getElementById('resultadoCaixa2');
             const textoCaixa2 = document.getElementById('textoResultadoCaixa2');
 
-            // 1. Calcula a Multiplicação Base
-            let resultadoMultiplicacao = 0;
-
             if (isNaN(valorBase) || isNaN(multiplicador)) {
                 campoMult.innerText = "Erro";
-                campoMult.style.color = "#dc3545";
+                campoMult.style.color = "#ff4d4d";
                 campoCaixa2.innerText = "0,00";
                 return; 
-            } else {
-                resultadoMultiplicacao = valorBase * multiplicador;
-                campoMult.style.color = "#007bff";
-                campoMult.innerText = formatarNumero(resultadoMultiplicacao);
             }
 
-            // 2. Acha a diferença exata: (Resultado Final) - (Valor Base)
-            let diferencaRestante = resultadoMultiplicacao - valorBase;
+            let resultadoMultiplicacao = valorBase * multiplicador;
+            campoMult.style.color = "#00d2ff";
+            campoMult.innerText = formatarNumero(resultadoMultiplicacao);
 
-            // 3. Verifica se tem algum valor para MULTIPLICAR a diferença
+            let diferencaRestante = resultadoMultiplicacao - valorBase;
             let valorMultiplicarExtra = parseFloat(document.getElementById('valorMultiplicarExtra').value);
             
-            campoCaixa2.style.color = "#fd7e14";
-
             if (!isNaN(valorMultiplicarExtra)) {
-                // Se digitou algo na caixa opcional, multiplica a diferença por esse número
                 let resultadoFinalMultiplicado = diferencaRestante * valorMultiplicarExtra;
                 textoCaixa2.innerText = "Diferença Multiplicada:";
                 campoCaixa2.innerText = formatarNumero(resultadoFinalMultiplicado);
             } else {
-                // Se deixou vazio, mostra só a diferença normal (os 6,60)
                 textoCaixa2.innerText = "Diferença Restante:";
                 campoCaixa2.innerText = formatarNumero(diferencaRestante);
             }
