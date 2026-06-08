@@ -3,347 +3,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Preços - Delivery PRO</title>
+    <title>Calculadora Dupla Integrada</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-        :root {
-            --primary: #ea1d2c;
-            --bg-color: #f0f2f5;
-            --card-bg: #ffffff;
-            --text-main: #2d3748;
-            --text-muted: #718096;
-            --border: #e2e8f0;
-            --success: #059669;
-            --success-bg: #d1fae5;
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            padding: 2rem 1rem;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 900px;
-        }
-
-        .header {
+            background-color: #f0f2f5;
+            padding: 20px;
             text-align: center;
-            margin-bottom: 2.5rem;
         }
 
-        .header h1 {
-            color: var(--primary);
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
+        .main-wrapper {
+            display: block;
+            max-width: 840px;
+            margin: 40px auto;
+            text-align: left;
         }
 
-        .header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
+        .container-table {
+            display: table;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 20px 0;
         }
 
-        .inputs-section {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            margin-bottom: 2.5rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+        .container-column {
+            display: table-cell;
+            width: 50%;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            vertical-align: top;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 22px;
         }
 
         .input-group {
-            display: flex;
-            flex-direction: column;
+            margin-bottom: 20px;
         }
 
-        .input-group label {
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-main);
+            font-size: 14px;
         }
 
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-wrapper span {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .input-group input {
+        input {
             width: 100%;
-            padding: 14px 14px 14px 45px;
-            border: 2px solid var(--border);
+            padding: 15px;
+            border: 2px solid #e1e4e8;
             border-radius: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-main);
+            font-size: 18px;
             outline: none;
-            transition: all 0.3s ease;
+            transition: border-color 0.2s;
+            background-color: #ffffff;
         }
 
-        .input-group input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(234, 29, 44, 0.1);
+        input:focus {
+            border-color: #007bff;
         }
 
-        .results-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-            gap: 1.5rem;
+        input:disabled {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border-color: #e1e4e8;
+            cursor: not-allowed;
         }
 
-        .card {
-            background: var(--card-bg);
-            padding: 1.8rem;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border-top: 5px solid var(--primary);
+        .btn-main {
+            width: calc(100% - 40px);
+            margin: 10px 20px;
+            padding: 18px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 8px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-main:hover {
+            background-color: #218838;
+        }
+
+        .result-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            height: 100px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
         }
 
-        .card.ifood-delivery {
-            border-top-color: #1a202c;
+        .box-blue {
+            background-color: #e7f3ff;
+            border-left: 5px solid #007bff;
         }
 
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+        .box-orange {
+            background-color: #fff4e6;
+            border-left: 5px solid #fd7e14;
         }
 
-        .card-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            line-height: 1.4;
-            min-height: 40px;
-        }
-
-        .price-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            color: var(--text-muted);
-            letter-spacing: 0.5px;
-        }
-
-        .price {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .card.ifood-delivery .price {
-            color: #1a202c;
-        }
-
-        .details {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            background: var(--bg-color);
-            padding: 0.8rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .details span {
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .client-total {
-            margin-top: auto;
-            background: var(--success-bg);
-            border: 1px solid #a7f3d0;
-            padding: 1rem;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .client-total .label {
+        .result-box span {
             display: block;
-            font-size: 0.8rem;
-            color: var(--success);
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 0.3rem;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 5px;
         }
 
-        .client-total .value {
-            display: block;
-            font-size: 1.5rem;
-            color: var(--success);
-            font-weight: 700;
+        .result-box strong {
+            font-size: 28px;
         }
 
+        .color-blue { color: #007bff; }
+        .color-orange { color: #fd7e14; }
+
+        @media (max-width: 768px) {
+            .container-table {
+                display: block;
+            }
+            .container-column {
+                display: block;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .main-wrapper {
+                margin: 10px auto;
+            }
+            .btn-main {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <h1>Calculadora de Vendas PRO</h1>
-            <p>Simule o seu lucro e descubra quanto o cliente vai pagar no final</p>
+    <div class="main-wrapper">
+        <div class="container-table">
+            
+            <div class="container-column">
+                <h2>1. Multiplicador Base</h2>
+
+                <div class="input-group">
+                    <label for="valorBase">Valor Base:</label>
+                    <input type="number" id="valorBase" step="any" placeholder="Ex: 10" oninput="sincronizarValorBase()">
+                </div>
+
+                <div class="input-group">
+                    <label for="multiplicador">Multiplicar por (Ex: 1,66):</label>
+                    <input type="number" id="multiplicador" step="any" placeholder="Ex: 1.66">
+                </div>
+
+                <div class="result-box box-blue">
+                    <span>Resultado Final (Multiplicado):</span>
+                    <strong id="resultadoMultiplicado" class="color-blue">0,00</strong>
+                </div>
+            </div>
+
+            <div class="container-column">
+                <h2>2. Diferença e Multiplicação</h2>
+
+                <div class="input-group">
+                    <label for="valorBaseEspelho">Valor Base (Puxado automaticamente):</label>
+                    <input type="number" id="valorBaseEspelho" step="any" placeholder="Preencha na caixa 1" disabled>
+                </div>
+
+                <div class="input-group">
+                    <label for="valorMultiplicarExtra">Multiplicar a diferença por? (Opcional):</label>
+                    <input type="number" id="valorMultiplicarExtra" step="any" placeholder="Ex: 5.33">
+                </div>
+
+                <div class="result-box box-orange">
+                    <span id="textoResultadoCaixa2">Diferença Restante:</span>
+                    <strong id="resultadoCaixa2" class="color-orange">0,00</strong>
+                </div>
+            </div>
+
         </div>
 
-        <div class="inputs-section">
-            <div class="input-group">
-                <label for="valorDesejado">Seu Lucro Líquido Desejado</label>
-                <div class="input-wrapper">
-                    <span>R$</span>
-                    <input type="number" id="valorDesejado" value="40.00" step="0.01" min="0">
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="custoFrete">Custo do SEU Motoboy (Plano 2)</label>
-                <div class="input-wrapper">
-                    <span>R$</span>
-                    <input type="number" id="custoFrete" value="8.00" step="0.01" min="0">
-                </div>
-            </div>
-            <div class="input-group">
-                <label for="freteCliente">Frete cobrado do Cliente no App</label>
-                <div class="input-wrapper">
-                    <span>R$</span>
-                    <input type="number" id="freteCliente" value="6.00" step="0.01" min="0">
-                </div>
-            </div>
-        </div>
+        <button class="btn-main" onclick="calcularTudo()">CALCULAR TUDO</button>
 
-        <div class="results-section">
-            <div class="card">
-                <div class="card-title">Plano Básico (Sua Entrega)</div>
-                <div class="card-desc">Cliente paga o frete à parte. Preço na vitrine parece menor.</div>
-                
-                <div class="price-label">Preço no Cardápio</div>
-                <div class="price" id="precoCenario1">R$ 0,00</div>
-                
-                <div class="details">
-                    Taxa do App: ~15,5%<br>
-                    Você embolsa: <span class="bolso">R$ 0,00</span>
-                </div>
-
-                <div class="client-total">
-                    <span class="label">Total que o cliente paga</span>
-                    <span class="value" id="totalCliente1">R$ 0,00</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">Plano Básico c/ Frete Grátis</div>
-                <div class="card-desc">Custo do motoboy embutido. A etiqueta "Grátis" atrai muito mais!</div>
-                
-                <div class="price-label">Preço no Cardápio</div>
-                <div class="price" id="precoCenario2">R$ 0,00</div>
-                
-                <div class="details">
-                    Taxa do App: ~15,5%<br>
-                    Paga o Motoboy: <span id="motoCenario2">R$ 0,00</span><br>
-                    Você embolsa: <span class="bolso">R$ 0,00</span>
-                </div>
-
-                <div class="client-total">
-                    <span class="label">Total que o cliente paga</span>
-                    <span class="value" id="totalCliente2">R$ 0,00</span>
-                </div>
-            </div>
-
-            <div class="card ifood-delivery">
-                <div class="card-title">Plano Entrega (Motoboy App)</div>
-                <div class="card-desc">iFood faz a entrega e cobra o frete do cliente no fim da compra.</div>
-                
-                <div class="price-label">Preço no Cardápio</div>
-                <div class="price" id="precoCenario3">R$ 0,00</div>
-                
-                <div class="details">
-                    Taxa do App: ~30,0%<br>
-                    Você embolsa: <span class="bolso">R$ 0,00</span>
-                </div>
-
-                <div class="client-total">
-                    <span class="label">Total que o cliente paga</span>
-                    <span class="value" id="totalCliente3">R$ 0,00</span>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script>
-        const TAXA_BASICO = 0.155; 
-        const TAXA_ENTREGA = 0.30; 
+        // Puxa o valor da primeira caixa só para demonstração visual
+        function sincronizarValorBase() {
+            const valor = document.getElementById('valorBase').value;
+            document.getElementById('valorBaseEspelho').value = valor;
+        }
 
-        const inputValor = document.getElementById('valorDesejado');
-        const inputFreteMotoboy = document.getElementById('custoFrete');
-        const inputFreteCliente = document.getElementById('freteCliente');
-        
-        const formatMoeda = (valor) => {
-            return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        };
+        // Deixa o número bonito com vírgula no final
+        function formatarNumero(num) {
+            if (num % 1 === 0) {
+                return num.toString();
+            } else {
+                return num.toFixed(2).replace('.', ',');
+            }
+        }
 
-        const calcular = () => {
-            let valorDesejado = parseFloat(inputValor.value) || 0;
-            let custoMotoboy = parseFloat(inputFreteMotoboy.value) || 0;
-            let freteCliente = parseFloat(inputFreteCliente.value) || 0;
-
-            // Cenário 1: Básico, Cliente paga o frete por fora
-            let precoVitrine1 = valorDesejado / (1 - TAXA_BASICO);
-            let totalCliente1 = precoVitrine1 + freteCliente;
+        function calcularTudo() {
+            const valorBase = parseFloat(document.getElementById('valorBase').value);
+            const multiplicador = parseFloat(document.getElementById('multiplicador').value);
             
-            document.getElementById('precoCenario1').innerText = `R$ ${formatMoeda(precoVitrine1)}`;
-            document.getElementById('totalCliente1').innerText = `R$ ${formatMoeda(totalCliente1)}`;
+            const campoMult = document.getElementById('resultadoMultiplicado');
+            const campoCaixa2 = document.getElementById('resultadoCaixa2');
+            const textoCaixa2 = document.getElementById('textoResultadoCaixa2');
 
-            // Cenário 2: Básico, Frete Grátis (Embutir motoboy no preço)
-            let precoVitrine2 = (valorDesejado + custoMotoboy) / (1 - TAXA_BASICO);
-            let totalCliente2 = precoVitrine2; // Frete é grátis para o cliente
+            // 1. Calcula a Multiplicação Base
+            let resultadoMultiplicacao = 0;
+
+            if (isNaN(valorBase) || isNaN(multiplicador)) {
+                campoMult.innerText = "Erro";
+                campoMult.style.color = "#dc3545";
+                campoCaixa2.innerText = "0,00";
+                return; 
+            } else {
+                resultadoMultiplicacao = valorBase * multiplicador;
+                campoMult.style.color = "#007bff";
+                campoMult.innerText = formatarNumero(resultadoMultiplicacao);
+            }
+
+            // 2. Acha a diferença exata: (Resultado Final) - (Valor Base)
+            let diferencaRestante = resultadoMultiplicacao - valorBase;
+
+            // 3. Verifica se tem algum valor para MULTIPLICAR a diferença
+            let valorMultiplicarExtra = parseFloat(document.getElementById('valorMultiplicarExtra').value);
             
-            document.getElementById('precoCenario2').innerText = `R$ ${formatMoeda(precoVitrine2)}`;
-            document.getElementById('motoCenario2').innerText = `R$ ${formatMoeda(custoMotoboy)}`;
-            document.getElementById('totalCliente2').innerText = `R$ ${formatMoeda(totalCliente2)}`;
+            campoCaixa2.style.color = "#fd7e14";
 
-            // Cenário 3: Entrega iFood (Cliente paga o frete do app)
-            let precoVitrine3 = valorDesejado / (1 - TAXA_ENTREGA);
-            let totalCliente3 = precoVitrine3 + freteCliente;
-            
-            document.getElementById('precoCenario3').innerText = `R$ ${formatMoeda(precoVitrine3)}`;
-            document.getElementById('totalCliente3').innerText = `R$ ${formatMoeda(totalCliente3)}`;
-
-            // Atualiza os bolsos
-            const bolsos = document.querySelectorAll('.bolso');
-            bolsos.forEach(bolso => {
-                bolso.innerText = `R$ ${formatMoeda(valorDesejado)}`;
-            });
-        };
-
-        inputValor.addEventListener('input', calcular);
-        inputFreteMotoboy.addEventListener('input', calcular);
-        inputFreteCliente.addEventListener('input', calcular);
-
-        calcular();
+            if (!isNaN(valorMultiplicarExtra)) {
+                // Se digitou algo na caixa opcional, multiplica a diferença por esse número
+                let resultadoFinalMultiplicado = diferencaRestante * valorMultiplicarExtra;
+                textoCaixa2.innerText = "Diferença Multiplicada:";
+                campoCaixa2.innerText = formatarNumero(resultadoFinalMultiplicado);
+            } else {
+                // Se deixou vazio, mostra só a diferença normal (os 6,60)
+                textoCaixa2.innerText = "Diferença Restante:";
+                campoCaixa2.innerText = formatarNumero(diferencaRestante);
+            }
+        }
     </script>
 </body>
 </html>
