@@ -104,7 +104,6 @@
             box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.15);
         }
 
-        /* Input automático bloqueado */
         input:disabled {
             background-color: #12131a;
             color: #62677a;
@@ -112,10 +111,42 @@
             cursor: not-allowed;
         }
 
+        /* CAIXA DE ALERTA (VAI GANHAR / VAI PERDER) */
+        .alert-box {
+            display: none; /* Escondido por padrão até calcular */
+            margin: 10px 16px 15px 16px;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 800;
+            text-align: center;
+            letter-spacing: 1px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .alert-loss {
+            background-color: rgba(255, 77, 77, 0.12);
+            border: 1px solid rgba(255, 77, 77, 0.4);
+            color: #ff4d4d;
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.15);
+        }
+
+        .alert-win {
+            background-color: rgba(35, 197, 82, 0.12);
+            border: 1px solid rgba(35, 197, 82, 0.4);
+            color: #23c552;
+            box-shadow: 0 0 15px rgba(35, 197, 82, 0.15);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* BOTÃO PRINCIPAL */
         .btn-main {
             width: calc(100% - 32px);
-            margin: 25px 16px 10px 16px;
+            margin: 5px 16px 10px 16px;
             padding: 16px;
             background: linear-gradient(135deg, #23c552 0%, #1b9c3e 100%);
             color: white;
@@ -172,10 +203,32 @@
             font-weight: 700;
         }
 
+        /* NOVA CAIXINHA DE DIFERENÇA BASE */
+        .mini-box {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background-color: #1f222e;
+            border-radius: 10px;
+            border: 1px dashed #3a3f52;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mini-box span {
+            font-size: 13px;
+            color: #9ea3b5;
+            font-weight: 500;
+        }
+
+        .mini-box strong {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
         .color-blue { color: #00d2ff; }
         .color-orange { color: #ff9f1c; }
 
-        /* Ajustes Mobile */
         @media (max-width: 768px) {
             .container-table {
                 display: block;
@@ -192,6 +245,9 @@
             }
             .main-wrapper {
                 margin: 5px auto;
+            }
+            .alert-box {
+                margin: 0 0 15px 0;
             }
         }
     </style>
@@ -211,17 +267,17 @@
                 <h2>1. Multiplicador Base</h2>
 
                 <div class="input-group">
-                    <label for="valorBase">Valor Base:</label>
+                    <label for="valorBase">QUANTO APOSTAR NO FORTE:</label>
                     <input type="number" id="valorBase" step="any" placeholder="Ex: 10" oninput="sincronizarValorBase()">
                 </div>
 
                 <div class="input-group">
-                    <label for="multiplicador">Multiplicar por:</label>
-                    <input type="number" id="multiplicador" step="any" placeholder="Ex: 1.66">
+                    <label for="multiplicador">ODD DO FORTE:</label>
+                    <input type="number" id="multiplicador" step="any" placeholder="Ex: 1.33">
                 </div>
 
                 <div class="result-box box-blue">
-                    <span>Resultado Final (Multiplicado):</span>
+                    <span>LUCRO DO FORTE:</span>
                     <strong id="resultadoMultiplicado" class="color-blue">0,00</strong>
                 </div>
             </div>
@@ -235,17 +291,24 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="valorMultiplicarExtra">Multiplicar a diferença por? (Opcional):</label>
-                    <input type="number" id="valorMultiplicarExtra" step="any" placeholder="Ex: 5.33">
+                    <label for="valorMultiplicarExtra">ODD DO FRACO:</label>
+                    <input type="number" id="valorMultiplicarExtra" step="any" placeholder="Ex: 5.66">
                 </div>
 
                 <div class="result-box box-orange">
-                    <span id="textoResultadoCaixa2">Diferença Restante:</span>
+                    <span id="textoResultadoCaixa2">LUCRO DO FRACO:</span>
                     <strong id="resultadoCaixa2" class="color-orange">0,00</strong>
+                </div>
+
+                <div class="mini-box">
+                    <span>QUANTO APOSTAR NO FRACO</span>
+                    <strong id="valorDiferencaBase" class="color-orange">0,00</strong>
                 </div>
             </div>
 
         </div>
+
+        <div id="alertaGeral" class="alert-box"></div>
 
         <button class="btn-main" onclick="calcularTudo()">CALCULAR TUDO</button>
 
@@ -272,28 +335,53 @@
             const campoMult = document.getElementById('resultadoMultiplicado');
             const campoCaixa2 = document.getElementById('resultadoCaixa2');
             const textoCaixa2 = document.getElementById('textoResultadoCaixa2');
+            const campoDiferencaBase = document.getElementById('valorDiferencaBase');
+            const alerta = document.getElementById('alertaGeral');
 
             if (isNaN(valorBase) || isNaN(multiplicador)) {
                 campoMult.innerText = "Erro";
                 campoMult.style.color = "#ff4d4d";
                 campoCaixa2.innerText = "0,00";
+                campoDiferencaBase.innerText = "0,00";
+                alerta.style.display = "none";
                 return; 
             }
 
+            // 1. Calcula Caixa 1 (Valor Azul)
             let resultadoMultiplicacao = valorBase * multiplicador;
             campoMult.style.color = "#00d2ff";
             campoMult.innerText = formatarNumero(resultadoMultiplicacao);
 
+            // 2. Calcula Diferença Automática
             let diferencaRestante = resultadoMultiplicacao - valorBase;
+            campoDiferencaBase.innerText = formatarNumero(diferencaRestante);
+
+            // 3. Calcula Caixa 2 (Valor Laranja)
             let valorMultiplicarExtra = parseFloat(document.getElementById('valorMultiplicarExtra').value);
+            let valorLaranjaFinal = 0;
             
             if (!isNaN(valorMultiplicarExtra)) {
-                let resultadoFinalMultiplicado = diferencaRestante * valorMultiplicarExtra;
+                valorLaranjaFinal = diferencaRestante * valorMultiplicarExtra;
                 textoCaixa2.innerText = "Diferença Multiplicada:";
-                campoCaixa2.innerText = formatarNumero(resultadoFinalMultiplicado);
             } else {
+                valorLaranjaFinal = diferencaRestante;
                 textoCaixa2.innerText = "Diferença Restante:";
-                campoCaixa2.innerText = formatarNumero(diferencaRestante);
+            }
+            
+            campoCaixa2.innerText = formatarNumero(valorLaranjaFinal);
+
+            // 4. LÓGICA DO ALERTA (Compara Laranja com Azul)
+            if (valorLaranjaFinal < resultadoMultiplicacao) {
+                alerta.style.display = "block";
+                alerta.className = "alert-box alert-loss";
+                alerta.innerText = "⚠️ VAI PERDER";
+            } else if (valorLaranjaFinal > resultadoMultiplicacao) {
+                alerta.style.display = "block";
+                alerta.className = "alert-box alert-win";
+                alerta.innerText = "✅ VAI GANHAR";
+            } else {
+                // Se forem exatamente iguais, esconde o alerta
+                alerta.style.display = "none";
             }
         }
     </script>
