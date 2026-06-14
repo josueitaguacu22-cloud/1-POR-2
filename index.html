@@ -79,12 +79,24 @@
             margin-bottom: 18px;
         }
 
+        .input-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .input-row .input-group {
+            margin-bottom: 0;
+            flex: 1;
+        }
+
         label {
             display: block;
             margin-bottom: 8px;
             color: #9ea3b5;
             font-weight: 500;
             font-size: 13px;
+            white-space: nowrap;
         }
 
         input {
@@ -111,9 +123,17 @@
             cursor: not-allowed;
         }
 
-        /* CAIXA DE ALERTA (VAI GANHAR / VAI PERDER) */
+        #multiplicadorEmpate {
+            color: #23c552;
+            font-weight: 800;
+            background-color: rgba(35, 197, 82, 0.05);
+            border-color: rgba(35, 197, 82, 0.2);
+            text-align: center;
+        }
+
+        /* CAIXA DE ALERTA */
         .alert-box {
-            display: none; /* Escondido por padrão até calcular */
+            display: none; 
             margin: 10px 16px 15px 16px;
             padding: 16px;
             border-radius: 14px;
@@ -136,6 +156,13 @@
             border: 1px solid rgba(35, 197, 82, 0.4);
             color: #23c552;
             box-shadow: 0 0 15px rgba(35, 197, 82, 0.15);
+        }
+
+        .alert-tie {
+            background-color: rgba(255, 215, 0, 0.12);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            color: #ffd700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
         }
 
         @keyframes fadeIn {
@@ -169,19 +196,29 @@
             transform: translateY(1px);
         }
 
-        .result-box {
+        /* LINHA DE RESULTADOS (Lado a Lado) */
+        .results-row {
+            display: flex;
+            gap: 12px;
             margin-top: 20px;
-            padding: 18px;
+        }
+
+        .result-box {
+            padding: 18px 10px;
             border-radius: 14px;
             text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             min-height: 90px;
-            display: block;
         }
 
         .box-blue {
             background-color: rgba(0, 210, 255, 0.06);
             border: 1px solid rgba(0, 210, 255, 0.15);
             border-left: 4px solid #00d2ff;
+            margin-top: 20px;
         }
 
         .box-orange {
@@ -190,20 +227,37 @@
             border-left: 4px solid #ff9f1c;
         }
 
+        .box-green {
+            background-color: rgba(35, 197, 82, 0.06);
+            border: 1px solid rgba(35, 197, 82, 0.15);
+            border-left: 4px solid #23c552;
+        }
+
+        .box-red {
+            background-color: rgba(255, 77, 77, 0.06);
+            border: 1px solid rgba(255, 77, 77, 0.15);
+            border-left: 4px solid #ff4d4d;
+        }
+
+        .box-neutral {
+            background-color: #1f222e;
+            border: 1px solid #2d3142;
+            border-left: 4px solid #9ea3b5;
+        }
+
         .result-box span {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             color: #9ea3b5;
             margin-bottom: 6px;
             font-weight: 500;
         }
 
         .result-box strong {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
         }
 
-        /* NOVA CAIXINHA DE DIFERENÇA BASE */
         .mini-box {
             margin-top: 12px;
             padding: 12px 16px;
@@ -228,6 +282,9 @@
 
         .color-blue { color: #00d2ff; }
         .color-orange { color: #ff9f1c; }
+        .color-green { color: #23c552; }
+        .color-red { color: #ff4d4d; }
+        .color-neutral { color: #9ea3b5; }
 
         @media (max-width: 768px) {
             .container-table {
@@ -249,6 +306,9 @@
             .alert-box {
                 margin: 0 0 15px 0;
             }
+            .input-row, .results-row {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -267,17 +327,17 @@
                 <h2>1. Multiplicador Base</h2>
 
                 <div class="input-group">
-                    <label for="valorBase">QUANTO APOSTAR NO FORTE:</label>
-                    <input type="number" id="valorBase" step="any" placeholder="Ex: 10" oninput="sincronizarValorBase()">
+                    <label for="valorBase">Valor Base:</label>
+                    <input type="number" id="valorBase" step="any" placeholder="Ex: 10" oninput="sincronizarValorBase(); atualizarEmpate();">
                 </div>
 
                 <div class="input-group">
-                    <label for="multiplicador">ODD DO FORTE:</label>
-                    <input type="number" id="multiplicador" step="any" placeholder="Ex: 1.33">
+                    <label for="multiplicador">Multiplicar por:</label>
+                    <input type="number" id="multiplicador" step="any" placeholder="Ex: 1.33" oninput="atualizarEmpate();">
                 </div>
 
-                <div class="result-box box-blue">
-                    <span>LUCRO DO FORTE:</span>
+                <div class="result-box box-blue" style="margin-top: 20px;">
+                    <span>Resultado Final (Multiplicado):</span>
                     <strong id="resultadoMultiplicado" class="color-blue">0,00</strong>
                 </div>
             </div>
@@ -290,18 +350,32 @@
                     <input type="number" id="valorBaseEspelho" step="any" placeholder="Aguardando Caixa 1" disabled>
                 </div>
 
-                <div class="input-group">
-                    <label for="valorMultiplicarExtra">ODD DO FRACO:</label>
-                    <input type="number" id="valorMultiplicarExtra" step="any" placeholder="Ex: 5.66">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="valorMultiplicarExtra" style="font-size: 11px;">Multiplicar dif. por? (Op):</label>
+                        <input type="number" id="valorMultiplicarExtra" step="any" placeholder="Ex: 5.66">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="multiplicadorEmpate" style="font-size: 11px; color: #23c552;">Mín. p/ Empate/Ganho:</label>
+                        <input type="text" id="multiplicadorEmpate" disabled placeholder="Automático">
+                    </div>
                 </div>
 
-                <div class="result-box box-orange">
-                    <span id="textoResultadoCaixa2">LUCRO DO FRACO:</span>
-                    <strong id="resultadoCaixa2" class="color-orange">0,00</strong>
+                <div class="results-row">
+                    <div class="result-box box-orange">
+                        <span id="textoResultadoCaixa2">Diferença Restante:</span>
+                        <strong id="resultadoCaixa2" class="color-orange">0,00</strong>
+                    </div>
+
+                    <div class="result-box box-neutral" id="boxLucro">
+                        <span>Lucro / Perda:</span>
+                        <strong id="valorLucro" class="color-neutral">0,00</strong>
+                    </div>
                 </div>
 
                 <div class="mini-box">
-                    <span>QUANTO APOSTAR NO FRACO</span>
+                    <span>Diferença Base (S/ Multiplicar):</span>
                     <strong id="valorDiferencaBase" class="color-orange">0,00</strong>
                 </div>
             </div>
@@ -318,13 +392,25 @@
         function sincronizarValorBase() {
             const valor = document.getElementById('valorBase').value;
             document.getElementById('valorBaseEspelho').value = valor;
+            document.getElementById('alertaGeral').style.display = "none";
         }
 
         function formatarNumero(num) {
-            if (num % 1 === 0) {
-                return num.toString();
+            return num.toFixed(2).replace('.', ',');
+        }
+
+        function atualizarEmpate() {
+            const vb = parseFloat(document.getElementById('valorBase').value);
+            const mult = parseFloat(document.getElementById('multiplicador').value);
+            const inputEmpate = document.getElementById('multiplicadorEmpate');
+
+            if (!isNaN(vb) && !isNaN(mult) && mult > 1) {
+                let res = vb * mult;
+                let dif = res - vb;
+                let empate = res / dif;
+                inputEmpate.value = formatarNumero(empate);
             } else {
-                return num.toFixed(2).replace('.', ',');
+                inputEmpate.value = "";
             }
         }
 
@@ -337,51 +423,77 @@
             const textoCaixa2 = document.getElementById('textoResultadoCaixa2');
             const campoDiferencaBase = document.getElementById('valorDiferencaBase');
             const alerta = document.getElementById('alertaGeral');
+            
+            const boxLucro = document.getElementById('boxLucro');
+            const txtLucro = document.getElementById('valorLucro');
 
-            if (isNaN(valorBase) || isNaN(multiplicador)) {
+            if (isNaN(valorBase) || isNaN(multiplicador) || multiplicador <= 1) {
                 campoMult.innerText = "Erro";
                 campoMult.style.color = "#ff4d4d";
                 campoCaixa2.innerText = "0,00";
                 campoDiferencaBase.innerText = "0,00";
+                txtLucro.innerText = "0,00";
                 alerta.style.display = "none";
                 return; 
             }
 
-            // 1. Calcula Caixa 1 (Valor Azul)
+            atualizarEmpate();
+
+            // 1. Calcula Resultado Azul
             let resultadoMultiplicacao = valorBase * multiplicador;
             campoMult.style.color = "#00d2ff";
             campoMult.innerText = formatarNumero(resultadoMultiplicacao);
 
-            // 2. Calcula Diferença Automática
+            // 2. Calcula Diferença Base
             let diferencaRestante = resultadoMultiplicacao - valorBase;
             campoDiferencaBase.innerText = formatarNumero(diferencaRestante);
 
-            // 3. Calcula Caixa 2 (Valor Laranja)
+            // 3. Calcula Caixa Laranja
             let valorMultiplicarExtra = parseFloat(document.getElementById('valorMultiplicarExtra').value);
             let valorLaranjaFinal = 0;
             
             if (!isNaN(valorMultiplicarExtra)) {
                 valorLaranjaFinal = diferencaRestante * valorMultiplicarExtra;
-                textoCaixa2.innerText = "Diferença Multiplicada:";
+                textoCaixa2.innerText = "Dif. Multiplicada:";
             } else {
                 valorLaranjaFinal = diferencaRestante;
-                textoCaixa2.innerText = "Diferença Restante:";
+                textoCaixa2.innerText = "Dif. Restante:";
             }
-            
             campoCaixa2.innerText = formatarNumero(valorLaranjaFinal);
 
-            // 4. LÓGICA DO ALERTA (Compara Laranja com Azul)
-            if (valorLaranjaFinal < resultadoMultiplicacao) {
-                alerta.style.display = "block";
-                alerta.className = "alert-box alert-loss";
-                alerta.innerText = "⚠️ VAI PERDER";
-            } else if (valorLaranjaFinal > resultadoMultiplicacao) {
+            // 4. Lógica de Lucro e Alertas
+            let vLaranja = parseFloat(valorLaranjaFinal.toFixed(2));
+            let vAzul = parseFloat(resultadoMultiplicacao.toFixed(2));
+            
+            let lucroLiquido = vLaranja - vAzul;
+
+            // Altera visual da nova caixa de Lucro/Perda
+            if (lucroLiquido > 0) {
+                boxLucro.className = "result-box box-green";
+                txtLucro.className = "color-green";
+                txtLucro.innerText = "+" + formatarNumero(lucroLiquido);
+                
                 alerta.style.display = "block";
                 alerta.className = "alert-box alert-win";
                 alerta.innerText = "✅ VAI GANHAR";
+                
+            } else if (lucroLiquido < 0) {
+                boxLucro.className = "result-box box-red";
+                txtLucro.className = "color-red";
+                txtLucro.innerText = formatarNumero(lucroLiquido); // o sinal de menos já vem da matemática
+                
+                alerta.style.display = "block";
+                alerta.className = "alert-box alert-loss";
+                alerta.innerText = "⚠️ VAI PERDER";
+                
             } else {
-                // Se forem exatamente iguais, esconde o alerta
-                alerta.style.display = "none";
+                boxLucro.className = "result-box box-neutral";
+                txtLucro.className = "color-neutral";
+                txtLucro.innerText = "0,00";
+                
+                alerta.style.display = "block";
+                alerta.className = "alert-box alert-tie";
+                alerta.innerText = "⚖️ EMPATE (Não Perde)";
             }
         }
     </script>
