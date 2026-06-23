@@ -270,7 +270,7 @@
         }
 
         .mini-box span {
-            font-size: 13px;
+            font-size: 12px;
             color: #9ea3b5;
             font-weight: 500;
         }
@@ -378,6 +378,16 @@
                     <span>Diferença Base (S/ Multiplicar):</span>
                     <strong id="valorDiferencaBase" class="color-orange">0,00</strong>
                 </div>
+
+                <div class="mini-box" id="caixaEmpate" style="display: none;">
+                    <span>Aposta p/ Empatar Opção 2 (Ganha na 1):</span>
+                    <strong id="valorEmpateOp2" class="color-neutral">0,00</strong>
+                </div>
+
+                <div class="mini-box" id="caixaLucroIgual" style="display: none;">
+                    <span>Aposta p/ Lucro Igual (Ganha nos 2 Lados):</span>
+                    <strong id="valorLucroIgual" class="color-green">0,00</strong>
+                </div>
             </div>
 
         </div>
@@ -422,6 +432,14 @@
             const campoCaixa2 = document.getElementById('resultadoCaixa2');
             const textoCaixa2 = document.getElementById('textoResultadoCaixa2');
             const campoDiferencaBase = document.getElementById('valorDiferencaBase');
+            
+            const campoEmpateOp2 = document.getElementById('valorEmpateOp2');
+            const campoLucroIgual = document.getElementById('valorLucroIgual');
+            
+            // Referência para as divs inteiras (para ocultar/mostrar)
+            const caixaEmpate = document.getElementById('caixaEmpate');
+            const caixaLucroIgual = document.getElementById('caixaLucroIgual');
+
             const alerta = document.getElementById('alertaGeral');
             
             const boxLucro = document.getElementById('boxLucro');
@@ -432,8 +450,12 @@
                 campoMult.style.color = "#ff4d4d";
                 campoCaixa2.innerText = "0,00";
                 campoDiferencaBase.innerText = "0,00";
+                campoEmpateOp2.innerText = "0,00";
+                campoLucroIgual.innerText = "0,00";
                 txtLucro.innerText = "0,00";
                 alerta.style.display = "none";
+                caixaEmpate.style.display = "none";
+                caixaLucroIgual.style.display = "none";
                 return; 
             }
 
@@ -448,8 +470,21 @@
             let diferencaRestante = resultadoMultiplicacao - valorBase;
             campoDiferencaBase.innerText = formatarNumero(diferencaRestante);
 
-            // 3. Calcula Caixa Laranja
+            // 3. Cálculos das novas Caixas (Empate Op2 e Surebet)
             let valorMultiplicarExtra = parseFloat(document.getElementById('valorMultiplicarExtra').value);
+            
+            if (!isNaN(valorMultiplicarExtra) && valorMultiplicarExtra > 1) {
+                let apostaEmpateOp2 = valorBase / (valorMultiplicarExtra - 1);
+                campoEmpateOp2.innerText = formatarNumero(apostaEmpateOp2);
+
+                let apostaLucroIgual = resultadoMultiplicacao / valorMultiplicarExtra;
+                campoLucroIgual.innerText = formatarNumero(apostaLucroIgual);
+            } else {
+                campoEmpateOp2.innerText = "0,00";
+                campoLucroIgual.innerText = "0,00";
+            }
+
+            // 4. Calcula Caixa Laranja original
             let valorLaranjaFinal = 0;
             
             if (!isNaN(valorMultiplicarExtra)) {
@@ -461,13 +496,12 @@
             }
             campoCaixa2.innerText = formatarNumero(valorLaranjaFinal);
 
-            // 4. Lógica de Lucro e Alertas
+            // 5. Lógica de Lucro e Alertas
             let vLaranja = parseFloat(valorLaranjaFinal.toFixed(2));
             let vAzul = parseFloat(resultadoMultiplicacao.toFixed(2));
             
             let lucroLiquido = vLaranja - vAzul;
 
-            // Altera visual da nova caixa de Lucro/Perda
             if (lucroLiquido > 0) {
                 boxLucro.className = "result-box box-green";
                 txtLucro.className = "color-green";
@@ -477,14 +511,22 @@
                 alerta.className = "alert-box alert-win";
                 alerta.innerText = "✅ VAI GANHAR";
                 
+                // MOSTRA as caixas se der lucro
+                caixaEmpate.style.display = "flex";
+                caixaLucroIgual.style.display = "flex";
+                
             } else if (lucroLiquido < 0) {
                 boxLucro.className = "result-box box-red";
                 txtLucro.className = "color-red";
-                txtLucro.innerText = formatarNumero(lucroLiquido); // o sinal de menos já vem da matemática
+                txtLucro.innerText = formatarNumero(lucroLiquido); 
                 
                 alerta.style.display = "block";
                 alerta.className = "alert-box alert-loss";
                 alerta.innerText = "⚠️ VAI PERDER";
+                
+                // ESCONDE as caixas se for perca
+                caixaEmpate.style.display = "none";
+                caixaLucroIgual.style.display = "none";
                 
             } else {
                 boxLucro.className = "result-box box-neutral";
@@ -494,6 +536,10 @@
                 alerta.style.display = "block";
                 alerta.className = "alert-box alert-tie";
                 alerta.innerText = "⚖️ EMPATE (Não Perde)";
+                
+                // MOSTRA as caixas se empatar
+                caixaEmpate.style.display = "flex";
+                caixaLucroIgual.style.display = "flex";
             }
         }
     </script>
