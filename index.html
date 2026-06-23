@@ -144,33 +144,16 @@
             animation: fadeIn 0.4s ease;
         }
 
-        .alert-loss {
-            background-color: rgba(255, 77, 77, 0.12);
-            border: 1px solid rgba(255, 77, 77, 0.4);
-            color: #ff4d4d;
-            box-shadow: 0 0 15px rgba(255, 77, 77, 0.15);
-        }
-
-        .alert-win {
-            background-color: rgba(35, 197, 82, 0.12);
-            border: 1px solid rgba(35, 197, 82, 0.4);
-            color: #23c552;
-            box-shadow: 0 0 15px rgba(35, 197, 82, 0.15);
-        }
-
-        .alert-tie {
-            background-color: rgba(255, 215, 0, 0.12);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            color: #ffd700;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);
-        }
+        .alert-loss { background-color: rgba(255, 77, 77, 0.12); border: 1px solid rgba(255, 77, 77, 0.4); color: #ff4d4d; box-shadow: 0 0 15px rgba(255, 77, 77, 0.15); }
+        .alert-win { background-color: rgba(35, 197, 82, 0.12); border: 1px solid rgba(35, 197, 82, 0.4); color: #23c552; box-shadow: 0 0 15px rgba(35, 197, 82, 0.15); }
+        .alert-tie { background-color: rgba(255, 215, 0, 0.12); border: 1px solid rgba(255, 215, 0, 0.4); color: #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.15); }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* BOTÃO PRINCIPAL */
+        /* BOTÕES PRINCIPAIS */
         .btn-main {
             width: calc(100% - 32px);
             margin: 5px 16px 10px 16px;
@@ -187,32 +170,18 @@
             letter-spacing: 0.5px;
         }
 
-        .btn-main:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 25px rgba(35, 197, 82, 0.35);
-        }
+        .btn-main:hover { transform: translateY(-1px); box-shadow: 0 8px 25px rgba(35, 197, 82, 0.35); }
+        .btn-main:active { transform: translateY(1px); }
 
-        .btn-main:active {
-            transform: translateY(1px);
+        .btn-secondary {
+            background: linear-gradient(135deg, #8a2be2 0%, #4b0082 100%);
+            box-shadow: 0 6px 20px rgba(138, 43, 226, 0.25);
         }
+        .btn-secondary:hover { box-shadow: 0 8px 25px rgba(138, 43, 226, 0.35); }
 
         /* LINHA DE RESULTADOS */
-        .results-row {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .result-box {
-            padding: 18px 10px;
-            border-radius: 14px;
-            text-align: center;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            min-height: 90px;
-        }
+        .results-row { display: flex; gap: 12px; margin-top: 20px; }
+        .result-box { padding: 18px 10px; border-radius: 14px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 90px; }
 
         .box-blue { background-color: rgba(0, 210, 255, 0.06); border: 1px solid rgba(0, 210, 255, 0.15); border-left: 4px solid #00d2ff; margin-top: 20px; }
         .box-orange { background-color: rgba(255, 159, 28, 0.06); border: 1px solid rgba(255, 159, 28, 0.15); border-left: 4px solid #ff9f1c; }
@@ -224,60 +193,80 @@
         .result-box strong { font-size: 24px; font-weight: 700; }
 
         /* NOVAS CAIXINHAS DETALHADAS */
-        .mini-box {
-            margin-top: 12px;
-            padding: 12px;
-            background-color: #1f222e;
-            border-radius: 10px;
-            border: 1px dashed #3a3f52;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        .mini-box { margin-top: 12px; padding: 12px; background-color: #1f222e; border-radius: 10px; border: 1px dashed #3a3f52; display: flex; flex-direction: column; gap: 10px; }
+        .mini-box-top { display: flex; justify-content: space-between; align-items: center; }
+        .mini-box-top span { font-size: 12px; color: #9ea3b5; font-weight: 500; }
+        .mini-box-top strong { font-size: 16px; font-weight: 700; }
+        .mini-box-bottom { display: flex; justify-content: space-between; background-color: #161820; padding: 8px 12px; border-radius: 6px; border: 1px solid #252836; }
 
-        .mini-box-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .mini-box-top span {
-            font-size: 12px;
-            color: #9ea3b5;
-            font-weight: 500;
-        }
-
-        .mini-box-top strong {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .mini-box-bottom {
-            display: flex;
-            justify-content: space-between;
-            background-color: #161820;
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid #252836;
-        }
-
-        .lucro-info {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 11px;
-        }
-
+        .lucro-info { display: flex; align-items: center; gap: 5px; font-size: 11px; }
         .lucro-label { color: #7c8296; font-weight: 600; }
-        .text-green { color: #23c552; font-weight: 700; }
-        .text-gray { color: #7c8296; font-weight: 700; }
-        .text-red { color: #ff4d4d; font-weight: 700; }
-
+        
         .color-blue { color: #00d2ff; }
         .color-orange { color: #ff9f1c; }
         .color-green { color: #23c552; }
         .color-red { color: #ff4d4d; }
         .color-neutral { color: #9ea3b5; }
+
+        .text-green { color: #23c552; font-weight: 700; }
+        .text-gray { color: #7c8296; font-weight: 700; }
+        .text-red { color: #ff4d4d; font-weight: 700; }
+
+        /* ESTILOS DO MODAL (TELA SOBREPOSTA) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: #161820;
+            padding: 30px;
+            border-radius: 24px;
+            border: 1px solid #3a3f52;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 24px;
+            color: #9ea3b5;
+            cursor: pointer;
+            transition: color 0.2s;
+            background: none; border: none; font-weight: bold;
+        }
+        .modal-close:hover { color: #ff4d4d; }
+
+        .modal-title { margin-bottom: 20px; font-size: 22px; text-align: center; color: #8a2be2; font-weight: 800; }
+
+        .modal-result-box {
+            background-color: #1f222e;
+            border: 1px solid #2d3142;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-result-box span { color: #9ea3b5; font-size: 14px; font-weight: 500; }
+        .modal-result-box strong { font-size: 20px; font-weight: 800; }
+        
+        .modal-warning {
+            display: none;
+            color: #ff4d4d; font-size: 13px; font-weight: bold; text-align: center; margin-top: 15px; padding: 10px; background: rgba(255, 77, 77, 0.1); border-radius: 8px;
+        }
 
         @media (max-width: 768px) {
             .container-table { display: block; }
@@ -309,7 +298,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="multiplicador">Multiplicar por:</label>
+                    <label for="multiplicador">Multiplicar por (Op 1):</label>
                     <input type="number" id="multiplicador" step="any" placeholder="Ex: 1.33" oninput="atualizarEmpate();">
                 </div>
 
@@ -329,7 +318,7 @@
 
                 <div class="input-row">
                     <div class="input-group">
-                        <label for="valorMultiplicarExtra" style="font-size: 11px;">Multiplicar dif. por? (Op):</label>
+                        <label for="valorMultiplicarExtra" style="font-size: 11px;">Multiplicar dif. por? (Op 2):</label>
                         <input type="number" id="valorMultiplicarExtra" step="any" placeholder="Ex: 5.66">
                     </div>
                     
@@ -407,8 +396,53 @@
 
         <div id="alertaGeral" class="alert-box"></div>
 
-        <button class="btn-main" onclick="calcularTudo()">CALCULAR TUDO</button>
+        <button class="btn-main" onclick="calcularTudo()">1. CALCULAR TUDO (BASE)</button>
+        <button class="btn-main btn-secondary" onclick="abrirModalMeta()">2. 🎯 INVERTER: CALCULAR META DE LUCRO</button>
 
+    </div>
+
+    <div class="modal-overlay" id="modalMeta">
+        <div class="modal-content">
+            <button class="modal-close" onclick="fecharModalMeta()">×</button>
+            <h3 class="modal-title">Engenharia Reversa</h3>
+            
+            <div class="input-group">
+                <label for="metaLucroInput" style="color: #00d2ff; font-weight: bold; font-size: 15px;">Quanto você quer LUCRAR livre? (R$)</label>
+                <input type="number" id="metaLucroInput" step="any" placeholder="Ex: 50" oninput="calcularMetaInversa()">
+            </div>
+
+            <div class="input-row" style="margin-bottom: 5px;">
+                <div class="input-group">
+                    <label>Odd Lida (Op 1):</label>
+                    <input type="text" id="modalOdd1" disabled>
+                </div>
+                <div class="input-group">
+                    <label>Odd Lida (Op 2):</label>
+                    <input type="text" id="modalOdd2" disabled>
+                </div>
+            </div>
+
+            <div id="modalAvisoErro" class="modal-warning">
+                ⚠️ As odds atuais não permitem lucro garantido (Surebet impossível). Ajuste os multiplicadores na tela inicial.
+            </div>
+
+            <div id="modalResultadosArea">
+                <div class="modal-result-box" style="border-left: 4px solid #00d2ff;">
+                    <span>Colocar na OPÇÃO 1:</span>
+                    <strong id="modalAposta1" class="color-blue">R$ 0,00</strong>
+                </div>
+
+                <div class="modal-result-box" style="border-left: 4px solid #ff9f1c;">
+                    <span>Colocar na OPÇÃO 2:</span>
+                    <strong id="modalAposta2" class="color-orange">R$ 0,00</strong>
+                </div>
+
+                <div class="modal-result-box" style="border-left: 4px solid #23c552; background-color: rgba(35, 197, 82, 0.05);">
+                    <span>Investimento Total (1 + 2):</span>
+                    <strong id="modalTotal" class="color-green">R$ 0,00</strong>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -423,7 +457,6 @@
         }
 
         function formatarLucroHTML(num) {
-            // Arredonda levemente para evitar erros de precisão do JS (-0.000001)
             let val = parseFloat(num.toFixed(2));
             if (val > 0) {
                 return `<span class="text-green">+ R$ ${formatarNumero(val)}</span>`;
@@ -481,16 +514,13 @@
 
             atualizarEmpate();
 
-            // 1. Calcula Resultado Azul
             let resultadoMultiplicacao = valorBase * multiplicador;
             campoMult.style.color = "#00d2ff";
             campoMult.innerText = formatarNumero(resultadoMultiplicacao);
 
-            // 2. Calcula Diferença Base
             let diferencaRestante = resultadoMultiplicacao - valorBase;
             campoDiferencaBase.innerText = formatarNumero(diferencaRestante);
 
-            // Calcula Lucros da Caixa 1 (Diferença Base)
             if (!isNaN(valorMultiplicarExtra)) {
                 let lucroOp1_1 = resultadoMultiplicacao - (valorBase + diferencaRestante);
                 let lucroOp2_1 = (diferencaRestante * valorMultiplicarExtra) - (valorBase + diferencaRestante);
@@ -501,9 +531,7 @@
                 document.getElementById('b1-op2').innerHTML = `<span class="text-gray">--</span>`;
             }
 
-            // 3. Cálculos das Caixas de Estratégia
             if (!isNaN(valorMultiplicarExtra) && valorMultiplicarExtra > 1) {
-                // ESTRATÉGIA: Empatar Op 2
                 let apostaEmpateOp2 = valorBase / (valorMultiplicarExtra - 1);
                 campoEmpateOp2.innerText = formatarNumero(apostaEmpateOp2);
                 
@@ -512,7 +540,6 @@
                 document.getElementById('b2-op1').innerHTML = formatarLucroHTML(lucroOp1_2);
                 document.getElementById('b2-op2').innerHTML = formatarLucroHTML(lucroOp2_2);
 
-                // ESTRATÉGIA: Lucro Igual
                 let apostaLucroIgual = resultadoMultiplicacao / valorMultiplicarExtra;
                 campoLucroIgual.innerText = formatarNumero(apostaLucroIgual);
                 
@@ -522,7 +549,6 @@
                 document.getElementById('b3-op2').innerHTML = formatarLucroHTML(lucroOp2_3);
             }
 
-            // 4. Calcula Caixa Laranja (Topo)
             let valorLaranjaFinal = 0;
             if (!isNaN(valorMultiplicarExtra)) {
                 valorLaranjaFinal = diferencaRestante * valorMultiplicarExtra;
@@ -533,7 +559,6 @@
             }
             campoCaixa2.innerText = formatarNumero(valorLaranjaFinal);
 
-            // 5. Lógica de Lucro Geral e Exibição de Caixas
             let vLaranja = parseFloat(valorLaranjaFinal.toFixed(2));
             let vAzul = parseFloat(resultadoMultiplicacao.toFixed(2));
             let lucroLiquido = vLaranja - vAzul;
@@ -545,7 +570,6 @@
                 alerta.className = "alert-box alert-win";
                 alerta.innerText = "✅ VAI GANHAR";
                 alerta.style.display = "block";
-                
                 caixaEmpate.style.display = "flex";
                 caixaLucroIgual.style.display = "flex";
             } else if (lucroLiquido < 0) {
@@ -555,7 +579,6 @@
                 alerta.className = "alert-box alert-loss";
                 alerta.innerText = "⚠️ VAI PERDER";
                 alerta.style.display = "block";
-                
                 caixaEmpate.style.display = "none";
                 caixaLucroIgual.style.display = "none";
             } else {
@@ -565,9 +588,73 @@
                 alerta.className = "alert-box alert-tie";
                 alerta.innerText = "⚖️ EMPATE (Não Perde)";
                 alerta.style.display = "block";
-                
                 caixaEmpate.style.display = "flex";
                 caixaLucroIgual.style.display = "flex";
+            }
+        }
+
+        // --- FUNÇÕES DO MODAL DE META DE LUCRO ---
+
+        function abrirModalMeta() {
+            const m1 = parseFloat(document.getElementById('multiplicador').value);
+            const m2 = parseFloat(document.getElementById('valorMultiplicarExtra').value);
+            
+            document.getElementById('modalOdd1').value = isNaN(m1) ? "" : m1;
+            document.getElementById('modalOdd2').value = isNaN(m2) ? "" : m2;
+            
+            document.getElementById('modalMeta').style.display = 'flex';
+            
+            // Limpa cálculos anteriores ao abrir
+            document.getElementById('metaLucroInput').value = "";
+            document.getElementById('modalAposta1').innerText = "R$ 0,00";
+            document.getElementById('modalAposta2').innerText = "R$ 0,00";
+            document.getElementById('modalTotal').innerText = "R$ 0,00";
+            document.getElementById('modalAvisoErro').style.display = 'none';
+            document.getElementById('modalResultadosArea').style.display = 'block';
+            
+            // Foco automático no input
+            setTimeout(() => document.getElementById('metaLucroInput').focus(), 100);
+        }
+
+        function fecharModalMeta() {
+            document.getElementById('modalMeta').style.display = 'none';
+        }
+
+        function calcularMetaInversa() {
+            const lucroAlvo = parseFloat(document.getElementById('metaLucroInput').value);
+            const odd1 = parseFloat(document.getElementById('modalOdd1').value);
+            const odd2 = parseFloat(document.getElementById('modalOdd2').value);
+            
+            const avisoErro = document.getElementById('modalAvisoErro');
+            const areaResultados = document.getElementById('modalResultadosArea');
+
+            if (isNaN(lucroAlvo) || isNaN(odd1) || isNaN(odd2) || odd1 <= 1 || odd2 <= 1) {
+                document.getElementById('modalAposta1').innerText = "R$ 0,00";
+                document.getElementById('modalAposta2').innerText = "R$ 0,00";
+                document.getElementById('modalTotal').innerText = "R$ 0,00";
+                return;
+            }
+
+            // Matemática da Arbitragem (Surebet Margin)
+            // Se (1/Odd1) + (1/Odd2) for >= 1, a casa de apostas tem a margem (não dá pra ter lucro dos dois lados)
+            let margemArbitragem = (1 / odd1) + (1 / odd2);
+
+            if (margemArbitragem >= 1) {
+                avisoErro.style.display = 'block';
+                areaResultados.style.display = 'none';
+            } else {
+                avisoErro.style.display = 'none';
+                areaResultados.style.display = 'block';
+
+                // Fórmulas de reversão para lucro igual exato
+                let retornoTotalNecessario = lucroAlvo / (1 - margemArbitragem);
+                let aposta1 = retornoTotalNecessario / odd1;
+                let aposta2 = retornoTotalNecessario / odd2;
+                let investimentoTotal = aposta1 + aposta2;
+
+                document.getElementById('modalAposta1').innerText = "R$ " + formatarNumero(aposta1);
+                document.getElementById('modalAposta2').innerText = "R$ " + formatarNumero(aposta2);
+                document.getElementById('modalTotal').innerText = "R$ " + formatarNumero(investimentoTotal);
             }
         }
     </script>
