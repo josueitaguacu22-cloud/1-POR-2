@@ -196,7 +196,7 @@
             transform: translateY(1px);
         }
 
-        /* LINHA DE RESULTADOS (Lado a Lado) */
+        /* LINHA DE RESULTADOS */
         .results-row {
             display: flex;
             gap: 12px;
@@ -214,71 +214,64 @@
             min-height: 90px;
         }
 
-        .box-blue {
-            background-color: rgba(0, 210, 255, 0.06);
-            border: 1px solid rgba(0, 210, 255, 0.15);
-            border-left: 4px solid #00d2ff;
-            margin-top: 20px;
-        }
+        .box-blue { background-color: rgba(0, 210, 255, 0.06); border: 1px solid rgba(0, 210, 255, 0.15); border-left: 4px solid #00d2ff; margin-top: 20px; }
+        .box-orange { background-color: rgba(255, 159, 28, 0.06); border: 1px solid rgba(255, 159, 28, 0.15); border-left: 4px solid #ff9f1c; }
+        .box-green { background-color: rgba(35, 197, 82, 0.06); border: 1px solid rgba(35, 197, 82, 0.15); border-left: 4px solid #23c552; }
+        .box-red { background-color: rgba(255, 77, 77, 0.06); border: 1px solid rgba(255, 77, 77, 0.15); border-left: 4px solid #ff4d4d; }
+        .box-neutral { background-color: #1f222e; border: 1px solid #2d3142; border-left: 4px solid #9ea3b5; }
 
-        .box-orange {
-            background-color: rgba(255, 159, 28, 0.06);
-            border: 1px solid rgba(255, 159, 28, 0.15);
-            border-left: 4px solid #ff9f1c;
-        }
+        .result-box span { display: block; font-size: 12px; color: #9ea3b5; margin-bottom: 6px; font-weight: 500; }
+        .result-box strong { font-size: 24px; font-weight: 700; }
 
-        .box-green {
-            background-color: rgba(35, 197, 82, 0.06);
-            border: 1px solid rgba(35, 197, 82, 0.15);
-            border-left: 4px solid #23c552;
-        }
-
-        .box-red {
-            background-color: rgba(255, 77, 77, 0.06);
-            border: 1px solid rgba(255, 77, 77, 0.15);
-            border-left: 4px solid #ff4d4d;
-        }
-
-        .box-neutral {
-            background-color: #1f222e;
-            border: 1px solid #2d3142;
-            border-left: 4px solid #9ea3b5;
-        }
-
-        .result-box span {
-            display: block;
-            font-size: 12px;
-            color: #9ea3b5;
-            margin-bottom: 6px;
-            font-weight: 500;
-        }
-
-        .result-box strong {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
+        /* NOVAS CAIXINHAS DETALHADAS */
         .mini-box {
             margin-top: 12px;
-            padding: 12px 16px;
+            padding: 12px;
             background-color: #1f222e;
             border-radius: 10px;
             border: 1px dashed #3a3f52;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mini-box-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .mini-box span {
+        .mini-box-top span {
             font-size: 12px;
             color: #9ea3b5;
             font-weight: 500;
         }
 
-        .mini-box strong {
+        .mini-box-top strong {
             font-size: 16px;
             font-weight: 700;
         }
+
+        .mini-box-bottom {
+            display: flex;
+            justify-content: space-between;
+            background-color: #161820;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #252836;
+        }
+
+        .lucro-info {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+        }
+
+        .lucro-label { color: #7c8296; font-weight: 600; }
+        .text-green { color: #23c552; font-weight: 700; }
+        .text-gray { color: #7c8296; font-weight: 700; }
+        .text-red { color: #ff4d4d; font-weight: 700; }
 
         .color-blue { color: #00d2ff; }
         .color-orange { color: #ff9f1c; }
@@ -287,28 +280,12 @@
         .color-neutral { color: #9ea3b5; }
 
         @media (max-width: 768px) {
-            .container-table {
-                display: block;
-            }
-            .container-column {
-                display: block;
-                width: 100%;
-                margin-bottom: 16px;
-                padding: 20px;
-            }
-            .btn-main {
-                width: 100%;
-                margin: 15px 0 0 0;
-            }
-            .main-wrapper {
-                margin: 5px auto;
-            }
-            .alert-box {
-                margin: 0 0 15px 0;
-            }
-            .input-row, .results-row {
-                flex-direction: column;
-            }
+            .container-table { display: block; }
+            .container-column { display: block; width: 100%; margin-bottom: 16px; padding: 20px; }
+            .btn-main { width: 100%; margin: 15px 0 0 0; }
+            .main-wrapper { margin: 5px auto; }
+            .alert-box { margin: 0 0 15px 0; }
+            .input-row, .results-row { flex-direction: column; }
         }
     </style>
 </head>
@@ -374,19 +351,55 @@
                     </div>
                 </div>
 
-                <div class="mini-box">
-                    <span>Diferença Base (S/ Multiplicar):</span>
-                    <strong id="valorDiferencaBase" class="color-orange">0,00</strong>
+                <div class="mini-box" id="caixaDifBase">
+                    <div class="mini-box-top">
+                        <span>Diferença Base (S/ Multiplicar):</span>
+                        <strong id="valorDiferencaBase" class="color-orange">0,00</strong>
+                    </div>
+                    <div class="mini-box-bottom">
+                        <div class="lucro-info">
+                            <span class="lucro-label">Se Op1 Bater:</span>
+                            <span id="b1-op1">0,00</span>
+                        </div>
+                        <div class="lucro-info">
+                            <span class="lucro-label">Se Op2 Bater:</span>
+                            <span id="b1-op2">0,00</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mini-box" id="caixaEmpate" style="display: none;">
-                    <span>Aposta p/ Empatar Opção 2 (Ganha na 1):</span>
-                    <strong id="valorEmpateOp2" class="color-neutral">0,00</strong>
+                    <div class="mini-box-top">
+                        <span>Aposta p/ Empatar Opção 2:</span>
+                        <strong id="valorEmpateOp2" class="color-neutral">0,00</strong>
+                    </div>
+                    <div class="mini-box-bottom">
+                        <div class="lucro-info">
+                            <span class="lucro-label">Se Op1 Bater:</span>
+                            <span id="b2-op1">0,00</span>
+                        </div>
+                        <div class="lucro-info">
+                            <span class="lucro-label">Se Op2 Bater:</span>
+                            <span id="b2-op2">0,00</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mini-box" id="caixaLucroIgual" style="display: none;">
-                    <span>Aposta p/ Lucro Igual (Ganha nos 2 Lados):</span>
-                    <strong id="valorLucroIgual" class="color-green">0,00</strong>
+                    <div class="mini-box-top">
+                        <span>Aposta p/ Lucro Igual nos 2 Lados:</span>
+                        <strong id="valorLucroIgual" class="color-green">0,00</strong>
+                    </div>
+                    <div class="mini-box-bottom">
+                        <div class="lucro-info">
+                            <span class="lucro-label">Se Op1 Bater:</span>
+                            <span id="b3-op1">0,00</span>
+                        </div>
+                        <div class="lucro-info">
+                            <span class="lucro-label">Se Op2 Bater:</span>
+                            <span id="b3-op2">0,00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -409,6 +422,18 @@
             return num.toFixed(2).replace('.', ',');
         }
 
+        function formatarLucroHTML(num) {
+            // Arredonda levemente para evitar erros de precisão do JS (-0.000001)
+            let val = parseFloat(num.toFixed(2));
+            if (val > 0) {
+                return `<span class="text-green">+ R$ ${formatarNumero(val)}</span>`;
+            } else if (val < 0) {
+                return `<span class="text-red">- R$ ${formatarNumero(Math.abs(val))}</span>`;
+            } else {
+                return `<span class="text-gray">R$ 0,00 (Empate)</span>`;
+            }
+        }
+
         function atualizarEmpate() {
             const vb = parseFloat(document.getElementById('valorBase').value);
             const mult = parseFloat(document.getElementById('multiplicador').value);
@@ -427,21 +452,18 @@
         function calcularTudo() {
             const valorBase = parseFloat(document.getElementById('valorBase').value);
             const multiplicador = parseFloat(document.getElementById('multiplicador').value);
+            const valorMultiplicarExtra = parseFloat(document.getElementById('valorMultiplicarExtra').value);
             
             const campoMult = document.getElementById('resultadoMultiplicado');
             const campoCaixa2 = document.getElementById('resultadoCaixa2');
             const textoCaixa2 = document.getElementById('textoResultadoCaixa2');
             const campoDiferencaBase = document.getElementById('valorDiferencaBase');
-            
             const campoEmpateOp2 = document.getElementById('valorEmpateOp2');
             const campoLucroIgual = document.getElementById('valorLucroIgual');
             
-            // Referência para as divs inteiras (para ocultar/mostrar)
             const caixaEmpate = document.getElementById('caixaEmpate');
             const caixaLucroIgual = document.getElementById('caixaLucroIgual');
-
             const alerta = document.getElementById('alertaGeral');
-            
             const boxLucro = document.getElementById('boxLucro');
             const txtLucro = document.getElementById('valorLucro');
 
@@ -450,8 +472,6 @@
                 campoMult.style.color = "#ff4d4d";
                 campoCaixa2.innerText = "0,00";
                 campoDiferencaBase.innerText = "0,00";
-                campoEmpateOp2.innerText = "0,00";
-                campoLucroIgual.innerText = "0,00";
                 txtLucro.innerText = "0,00";
                 alerta.style.display = "none";
                 caixaEmpate.style.display = "none";
@@ -470,23 +490,40 @@
             let diferencaRestante = resultadoMultiplicacao - valorBase;
             campoDiferencaBase.innerText = formatarNumero(diferencaRestante);
 
-            // 3. Cálculos das novas Caixas (Empate Op2 e Surebet)
-            let valorMultiplicarExtra = parseFloat(document.getElementById('valorMultiplicarExtra').value);
-            
-            if (!isNaN(valorMultiplicarExtra) && valorMultiplicarExtra > 1) {
-                let apostaEmpateOp2 = valorBase / (valorMultiplicarExtra - 1);
-                campoEmpateOp2.innerText = formatarNumero(apostaEmpateOp2);
-
-                let apostaLucroIgual = resultadoMultiplicacao / valorMultiplicarExtra;
-                campoLucroIgual.innerText = formatarNumero(apostaLucroIgual);
+            // Calcula Lucros da Caixa 1 (Diferença Base)
+            if (!isNaN(valorMultiplicarExtra)) {
+                let lucroOp1_1 = resultadoMultiplicacao - (valorBase + diferencaRestante);
+                let lucroOp2_1 = (diferencaRestante * valorMultiplicarExtra) - (valorBase + diferencaRestante);
+                document.getElementById('b1-op1').innerHTML = formatarLucroHTML(lucroOp1_1);
+                document.getElementById('b1-op2').innerHTML = formatarLucroHTML(lucroOp2_1);
             } else {
-                campoEmpateOp2.innerText = "0,00";
-                campoLucroIgual.innerText = "0,00";
+                document.getElementById('b1-op1').innerHTML = `<span class="text-gray">--</span>`;
+                document.getElementById('b1-op2').innerHTML = `<span class="text-gray">--</span>`;
             }
 
-            // 4. Calcula Caixa Laranja original
+            // 3. Cálculos das Caixas de Estratégia
+            if (!isNaN(valorMultiplicarExtra) && valorMultiplicarExtra > 1) {
+                // ESTRATÉGIA: Empatar Op 2
+                let apostaEmpateOp2 = valorBase / (valorMultiplicarExtra - 1);
+                campoEmpateOp2.innerText = formatarNumero(apostaEmpateOp2);
+                
+                let lucroOp1_2 = resultadoMultiplicacao - (valorBase + apostaEmpateOp2);
+                let lucroOp2_2 = (apostaEmpateOp2 * valorMultiplicarExtra) - (valorBase + apostaEmpateOp2);
+                document.getElementById('b2-op1').innerHTML = formatarLucroHTML(lucroOp1_2);
+                document.getElementById('b2-op2').innerHTML = formatarLucroHTML(lucroOp2_2);
+
+                // ESTRATÉGIA: Lucro Igual
+                let apostaLucroIgual = resultadoMultiplicacao / valorMultiplicarExtra;
+                campoLucroIgual.innerText = formatarNumero(apostaLucroIgual);
+                
+                let lucroOp1_3 = resultadoMultiplicacao - (valorBase + apostaLucroIgual);
+                let lucroOp2_3 = (apostaLucroIgual * valorMultiplicarExtra) - (valorBase + apostaLucroIgual);
+                document.getElementById('b3-op1').innerHTML = formatarLucroHTML(lucroOp1_3);
+                document.getElementById('b3-op2').innerHTML = formatarLucroHTML(lucroOp2_3);
+            }
+
+            // 4. Calcula Caixa Laranja (Topo)
             let valorLaranjaFinal = 0;
-            
             if (!isNaN(valorMultiplicarExtra)) {
                 valorLaranjaFinal = diferencaRestante * valorMultiplicarExtra;
                 textoCaixa2.innerText = "Dif. Multiplicada:";
@@ -496,48 +533,39 @@
             }
             campoCaixa2.innerText = formatarNumero(valorLaranjaFinal);
 
-            // 5. Lógica de Lucro e Alertas
+            // 5. Lógica de Lucro Geral e Exibição de Caixas
             let vLaranja = parseFloat(valorLaranjaFinal.toFixed(2));
             let vAzul = parseFloat(resultadoMultiplicacao.toFixed(2));
-            
             let lucroLiquido = vLaranja - vAzul;
 
             if (lucroLiquido > 0) {
                 boxLucro.className = "result-box box-green";
                 txtLucro.className = "color-green";
                 txtLucro.innerText = "+" + formatarNumero(lucroLiquido);
-                
-                alerta.style.display = "block";
                 alerta.className = "alert-box alert-win";
                 alerta.innerText = "✅ VAI GANHAR";
+                alerta.style.display = "block";
                 
-                // MOSTRA as caixas se der lucro
                 caixaEmpate.style.display = "flex";
                 caixaLucroIgual.style.display = "flex";
-                
             } else if (lucroLiquido < 0) {
                 boxLucro.className = "result-box box-red";
                 txtLucro.className = "color-red";
                 txtLucro.innerText = formatarNumero(lucroLiquido); 
-                
-                alerta.style.display = "block";
                 alerta.className = "alert-box alert-loss";
                 alerta.innerText = "⚠️ VAI PERDER";
+                alerta.style.display = "block";
                 
-                // ESCONDE as caixas se for perca
                 caixaEmpate.style.display = "none";
                 caixaLucroIgual.style.display = "none";
-                
             } else {
                 boxLucro.className = "result-box box-neutral";
                 txtLucro.className = "color-neutral";
                 txtLucro.innerText = "0,00";
-                
-                alerta.style.display = "block";
                 alerta.className = "alert-box alert-tie";
                 alerta.innerText = "⚖️ EMPATE (Não Perde)";
+                alerta.style.display = "block";
                 
-                // MOSTRA as caixas se empatar
                 caixaEmpate.style.display = "flex";
                 caixaLucroIgual.style.display = "flex";
             }
